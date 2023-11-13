@@ -6,7 +6,6 @@ from pathlib import Path
 
 def fetch_sources(country):
     base_url = 'https://newsapi.org/v2/top-headlines/sources'
-    
 
     query_params = {
         'apiKey': args.api_key,
@@ -15,7 +14,7 @@ def fetch_sources(country):
     }
 
     
-    source_path =  Path(f'../data/news_source/cache/{country}.json')
+    source_path = Path(__file__).parent.parent / f'data/news_source/cache/{country}.json'
 
     if not source_path.exists():
         try:
@@ -32,13 +31,13 @@ def fetch_sources(country):
         return(json.load(open(source_path, 'r')))
 
 def main():
-    f = open('../data/news_source/sources_list', 'w')
-    canada_sources = fetch_sources('ca')    
-    for i in canada_sources['sources']:
-        f.write(i['name'] + '\n')
-    us_sources = fetch_sources('us')
-    for i in us_sources['sources']:
-        f.write(i['name'] + '\n')
+    with open(Path(__file__).parent.parent / 'data/news_source/sources_list.md', 'w') as f:
+        canada_sources = fetch_sources('ca')    
+        for i in canada_sources['sources']:
+            f.write(i['name'] + '\n')
+        us_sources = fetch_sources('us')
+        for i in us_sources['sources']:
+            f.write(i['name'] + '\n')
     
 
 if __name__ == '__main__':
