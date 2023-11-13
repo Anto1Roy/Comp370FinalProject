@@ -1,2 +1,2 @@
 # Comp370FinalProject
-Data science project on the coverage of taylor swift in news articles for final porject in COMP370
+Data science project on the coverage of Taylor Swift in news articles for the final project in COMP370
