@@ -31,14 +31,26 @@ def fetch_sources(country):
         return(json.load(open(source_path, 'r')))
 
 def main():
+    us_sources = fetch_sources('us')
+    canada_sources = fetch_sources('ca')    
+    # sources_list.md should not be overwritten once generated 
+    ''' 
     with open(Path(__file__).parent.parent / 'data/news_source/sources_list.md', 'w') as f:
-        canada_sources = fetch_sources('ca')    
         for i in canada_sources['sources']:
             f.write(i['name'] + '\n')
-        us_sources = fetch_sources('us')
         for i in us_sources['sources']:
             f.write(i['name'] + '\n')
+    '''
     
+    # generate sources_id.json which is a list of all the sources' id
+    with open(Path(__file__).parent.parent / 'data/news_source/sources_id.json', 'w') as f:
+        ids = {"id" : []}
+        for i in canada_sources['sources']:
+            ids['id'].append(i['id'])
+
+        for i in us_sources['sources']:
+            ids['id'].append(i['id'])
+        json.dump(ids, f)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
