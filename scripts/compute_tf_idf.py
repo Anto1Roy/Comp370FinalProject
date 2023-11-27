@@ -3,6 +3,9 @@ import json
 import math
 import os
 
+def getPath(file):
+    return os.path.join(os.path.dirname(__file__), file)
+
 def tf(category,word,word_count):
     return word_count[category][word]
 
@@ -23,16 +26,17 @@ def compute_tf_idf(word, category, word_count):
     return tfidf_dict
 
 def main():
-    df = pd.read_csv('/home/nemo/repos/ethann-github/Comp370FinalProject/data/articles/articles_FIX.csv')
     # create a new csv for each categories
-    with open(f'/home/nemo/repos/ethann-github/Comp370FinalProject/data/articles/word_count.json', 'r') as fp:
+    fnJson = getPath('../data/articles/word_count_all.json')
+    with open(fnJson, 'r') as fp:
         word_count = json.load(fp)
     tfidf = {}
     for category in word_count:
         word_dict = word_count[category]
         tfidf = compute_tf_idf(word_dict,category,word_count)
 
-    with open(f'/home/nemo/repos/ethann-github/Comp370FinalProject/data/articles/tfidf.json', 'w') as fp:
+    fntidf = getPath('../data/articles/tfidf.json')
+    with open(fntidf, 'w') as fp:
         json.dump(tfidf, fp,indent=4)
 if __name__ == "__main__":
     main()
