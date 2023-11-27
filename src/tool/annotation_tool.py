@@ -96,7 +96,7 @@ class FileOutputApp:
 
     def display_current_item(self):
         # Display the content of the current item in the label
-        if self.articles[self.current_article] == None:
+        if self.articles[self.current_article] == None or len(self.articles[self.current_article]) == 0:
              current_item = f"open url : {url_list[self.current_article]}"
         else :
             if len(self.articles[self.current_article][self.current_index]) < 10:
@@ -148,7 +148,7 @@ if __name__ == "__main__":
 
     # receive json and transform into list of lists
 
-    json_content = json.load(open(Path(__file__).parent.parent.parent / 'data/articles/content.json', 'r'))
+    json_content = json.load(open(Path(__file__).parent.parent.parent / 'data/articles/content_swift.json', 'r'))
     # Example list of lists
     url_list = list(json_content.keys())
     input_content = []
