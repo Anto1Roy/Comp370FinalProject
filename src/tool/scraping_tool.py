@@ -6,8 +6,12 @@ from bs4 import BeautifulSoup
 
 def scrape_text_elements(url):
     try:
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+        }
         # Send a GET request to the URL
-        response = requests.get(url)
+        response = requests.get(url, headers=headers)
         
         # Check if the request was successful (status code 200)
         if response.status_code == 200:
@@ -15,10 +19,16 @@ def scrape_text_elements(url):
             soup = BeautifulSoup(response.text, 'lxml')
             
             # Find all <p> tags containing the keyword
-            paragraphs = soup.find_all('p', string=lambda text: 'taylor swift' or 'swift' in text.lower())
+            paragraphs = soup.find_all('p')
+
+            returned_paragraphs = []
+            for para in paragraphs:
+                if ('taylor' or 'swift') in para.get_text().lower():
+                    returned_paragraphs.append(para.get_text())
+            
             
             # Extract the text from each matching <p> tag
-            return [paragraph.get_text() for paragraph in paragraphs]
+            return returned_paragraphs
 
         else:
             print(f"Failed to fetch {url}. Status code: {response.status_code}")
@@ -47,7 +57,7 @@ if __name__ == "__main__":
         }
 
     # Write the data to a JSON file
-    output_file_path = Path(__file__).parent.parent.parent / 'data/articles/content.json'
+    output_file_path = Path(__file__).parent.parent.parent / 'data/articles/content_swift.json'
     with open(output_file_path, 'w') as json_file:
         json.dump(data_dict, json_file, indent=2)
 
