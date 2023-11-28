@@ -57,7 +57,7 @@ if __name__ == "__main__":
         }
 
     # Write the data to a JSON file
-    output_file_path = Path(__file__).parent.parent.parent / 'data/articles/content_swift.json'
+    output_file_path = Path(__file__).parent.parent.parent / 'data/articles/scraping_content/content_swift.json'
     with open(output_file_path, 'w') as json_file:
         json.dump(data_dict, json_file, indent=2)
 
