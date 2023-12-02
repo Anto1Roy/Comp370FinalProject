@@ -11,20 +11,31 @@ def compute_score(row):
 
     return score
 
-def main(input_file):
+def main(input_file, output_file):
+
+    scores = {} 
     with open(input_file, 'r') as file:
         # Assuming the first row contains headers, and the remaining rows contain data
         reader = csv.reader(file)
         
-        # Compute scores for each URL
-        scores = {}
         for row in reader:
             url = row[0]
             score = compute_score(row)
             scores[url] = score
-            print(f"{url}: {score}")
+
+    with open(output_file, 'w', newline='') as output_file:
+        writer = csv.writer(output_file)
+        
+        # Write the header
+        writer.writerow(['url', 'score'])
+
+        # Write the data rows with 'url' and 'score'
+        for row in scores.items():
+            writer.writerow(row)    
 
 
 if __name__ == "__main__":
-    input_file = os.path.join(os.path.dirname(__file__), '../data/articles/results/results.csv')  # Replace with the actual CSV file path
-    main(input_file)
+    input_file = os.path.join(os.path.dirname(__file__), '../data/articles/results/results.csv')
+    output_file = os.path.join(os.path.dirname(__file__), '../data/articles/results/results_with_score.csv')
+
+    main(input_file,output_file)
